@@ -1,0 +1,38 @@
+name: ci-session
+on:
+    pull_request:
+        branches:
+            - main
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v3
+
+            - name: set up node js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 22
+            
+            - name: install dependencies
+              run: npm install
+            
+            - name: hello world
+              run: echo "hello world"
+            
+            - name: check eslint
+              run: npm run lint:fix
+            
+            - name: initialize npm authentication
+              run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+            
+            - name: publish to npm
+              run: npm publish --access public
+
+            
+
+            
+
+        
