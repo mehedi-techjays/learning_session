@@ -1,3 +1,3 @@
 module.exports =()=>{
-    console.log('Hello from the index.js file')
+    console.log('hello from workflow')
 }

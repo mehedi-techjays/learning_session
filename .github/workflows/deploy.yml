@@ -1,6 +1,6 @@
 name: ci-session
 on:
-    pull_request:
+    push:
         branches:
             - main
 
@@ -30,6 +30,10 @@ jobs:
             
             - name: publish to npm
               run: npm publish --access public
+              env:
+                NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+
 
             
 
