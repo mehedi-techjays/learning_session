@@ -1,42 +1,33 @@
-name: ci-session
+name: deploy
+
 on:
-    push:
-        branches:
-            - main
+  push:
+    branches:
+      - main
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
 
-        steps:
-            - uses: actions/checkout@v3
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-            - name: set up node js
-              uses: actions/setup-node@v3
-              with:
-                  node-version: 22
-            
-            - name: install dependencies
-              run: npm install
-            
-            - name: hello world
-              run: echo "hello world"
-            
-            - name: check eslint
-              run: npm run lint:fix
-            
-            - name: initialize npm authentication
-              run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-            
-            - name: publish to npm
-              run: npm publish --access public
-              env:
-                NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
 
+      - name: Hello world
+        run: echo "Hello World"
 
+      - name: Install dependencies
+        run: npm install
 
-            
+      - name: authenicate with npm
+        run: echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}" > ~/.npmrc
 
-            
-
-        
+      - name: Deploy to npm
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
